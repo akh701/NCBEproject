@@ -7,3 +7,15 @@ exports.fetchTopics = () => {
 		return topics
 	})
 }
+
+//-----#14 endpoint model  ----------
+exports.fetchArticleById = id => {
+	let queryStr = `SELECT * FROM articles
+    WHERE article_id = $1`
+	return db.query(queryStr, [id]).then(({ rows }) => {
+		if (rows.length === 0) {
+			return Promise.reject({ status: 404, msg: "Article not found" })
+		}
+		return rows[0]
+	})
+}
