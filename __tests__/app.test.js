@@ -17,6 +17,7 @@ describe("All endpoints", () => {
 				expect(msg).toBe("Path not found")
 			})
 	})
+	//-----#3 endpoint ----------
 	describe("GET - /api/topics", () => {
 		// tests the length of the array object
 		test("status: 200, have lenth of 3", () => {
@@ -41,6 +42,43 @@ describe("All endpoints", () => {
 							})
 						)
 					})
+				})
+		})
+	})
+	//-----#14 endpoint ----------
+	describe("GET - /api/articles/:article_id", () => {
+		test("Status 200, responds with a specific article object ", () => {
+			return request(app)
+				.get("/api/articles/1")
+				.expect(200)
+				.then(({ body }) => {
+					expect(body).toEqual({
+						article: {
+							title: "Living in the shadow of a great man",
+							article_id: 1,
+							topic: "mitch",
+							author: "butter_bridge",
+							body: "I find this existence challenging",
+							created_at: "2020-07-09T20:11:00.000Z",
+							votes: 100,
+						},
+					})
+				})
+		})
+		test("400 response with an error message for invalid article_id", () => {
+			return request(app)
+				.get("/api/articles/an-invalid-id")
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+		test.only("404 response with an error message for valid but non existing article_id", () => {
+			return request(app)
+				.get("/api/articles/99")
+				.expect(404)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Article not found")
 				})
 		})
 	})
