@@ -14,7 +14,10 @@ app.get("/api/topics", getTopics)
 //-----#14 endpoint ----------
 app.get("/api/articles/:article_id", getArticle)
 
-////////////////Error Handler////////////////////////////////
+//-----#7 endpoint ----------
+// app.patch("/api/articles/:article_id", patchArticle)
+
+//////////////--Error Handler--/////////////////////
 
 //---- Custom error handler -----
 app.use(handleCustomErrors)

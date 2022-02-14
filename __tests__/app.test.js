@@ -47,24 +47,24 @@ describe("All endpoints", () => {
 	})
 	//-----#14 endpoint ----------
 	describe("GET - /api/articles/:article_id", () => {
+		// returns a specific article object
 		test("Status 200, responds with a specific article object ", () => {
 			return request(app)
 				.get("/api/articles/1")
 				.expect(200)
-				.then(({ body }) => {
-					expect(body).toEqual({
-						article: {
-							title: "Living in the shadow of a great man",
-							article_id: 1,
-							topic: "mitch",
-							author: "butter_bridge",
-							body: "I find this existence challenging",
-							created_at: "2020-07-09T20:11:00.000Z",
-							votes: 100,
-						},
+				.then(({ body: { article } }) => {
+					expect(article).toEqual({
+						title: expect.any(String),
+						article_id: expect.any(Number),
+						topic: expect.any(String),
+						author: expect.any(String),
+						body: expect.any(String),
+						created_at: expect.any(String),
+						votes: expect.any(Number),
 					})
 				})
 		})
+		// tests for invlaide article_id
 		test("400 response with an error message for invalid article_id", () => {
 			return request(app)
 				.get("/api/articles/an-invalid-id")
@@ -73,7 +73,8 @@ describe("All endpoints", () => {
 					expect(msg).toBe("Bad request")
 				})
 		})
-		test.only("404 response with an error message for valid but non existing article_id", () => {
+		// tests for Valid but non existing artice_id
+		test("404 response with an error message for valid but non existing article_id", () => {
 			return request(app)
 				.get("/api/articles/99")
 				.expect(404)

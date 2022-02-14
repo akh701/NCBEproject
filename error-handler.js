@@ -16,6 +16,7 @@ exports.handlePslErrors = (err, req, res, next) => {
 	}
 }
 
+//--- 500s Server Errors
 exports.handle500s = (err, req, res, next) => {
 	console.log(err)
 	res.status(500).send({ msg: "server error" })

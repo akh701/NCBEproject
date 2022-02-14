@@ -1,6 +1,6 @@
 const { fetchTopics, fetchArticleById } = require("../models/news.models")
 
-//-----#3 endpoint controller ----------
+//-----#3 GET api/topics endpoint controller ----------
 exports.getTopics = (req, res, next) => {
 	fetchTopics()
 		.then(topics => {
@@ -12,7 +12,7 @@ exports.getTopics = (req, res, next) => {
 		})
 }
 
-//-----#14 endpoint controller ----------
+//-----#14 GET api/articles/:article_id endpoint controller -----
 exports.getArticle = (req, res, next) => {
 	const { article_id } = req.params
 	fetchArticleById(article_id)
@@ -24,3 +24,5 @@ exports.getArticle = (req, res, next) => {
 			next(err)
 		})
 }
+
+//-----#7 PATCH api/articles/:article_id endpoint controller -----
