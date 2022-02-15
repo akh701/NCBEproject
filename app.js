@@ -2,6 +2,7 @@ const express = require("express")
 const {
 	getTopics,
 	getArticle,
+  getUsers,
 	patchArticleById,
 } = require("./controllers/news.controllers")
 const {
@@ -21,6 +22,9 @@ app.get("/api/articles/:article_id", getArticle)
 
 //-----#7 endpoint ----------
 app.patch("/api/articles/:article_id", patchArticleById)
+
+//-----#21 endpoint----------
+app.get("/api/users", getUsers)
 
 //////////////--Error Handler--/////////////////////
 

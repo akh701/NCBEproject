@@ -83,6 +83,7 @@ describe("All endpoints", () => {
 				})
 		})
 	})
+
 	//-----#7 PATCH api/articles/:article_id endpoint controller -----
 	describe("Patch - /api/articles/:article_id", () => {
 		// tests if votes have been incremented with a positive vote
@@ -146,6 +147,32 @@ describe("All endpoints", () => {
 				.expect(400)
 				.then(({ body: { msg } }) => {
 					expect(msg).toBe("Bad request")
+				})
+		})
+//-----#21 endpoint----------
+	describe.only("GET - /api/users", () => {
+		// tests the length of the array object
+		test("status: 200, have lenth of 4", () => {
+			return request(app)
+				.get("/api/users")
+				.expect(200)
+				.then(({ body: { users } }) => {
+					expect(users).toHaveLength(4)
+				})
+		})
+		// returns an array of user objects
+		test("Status 200, responds with an array of user objects ", () => {
+			return request(app)
+				.get("/api/users")
+				.expect(200)
+				.then(({ body: { users } }) => {
+					users.forEach(user => {
+						expect(user).toEqual(
+							expect.objectContaining({
+								username: expect.any(String),
+							})
+						)
+					})
 				})
 		})
 	})

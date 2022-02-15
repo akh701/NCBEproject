@@ -1,7 +1,9 @@
 const {
 	fetchTopics,
 	fetchArticleById,
-	patchArticleById,
+	
+	patchArticleById,fetchUsers,
+
 } = require("../models/news.models")
 
 //-----#3 GET api/topics endpoint controller ----------
@@ -30,6 +32,7 @@ exports.getArticle = (req, res, next) => {
 }
 
 //-----#7 PATCH api/articles/:article_id endpoint controller -----
+
 exports.patchArticleById = (req, res, next) => {
 	const { article_id } = req.params
 	const { inc_votes } = req.body
@@ -40,6 +43,18 @@ exports.patchArticleById = (req, res, next) => {
 		})
 		.catch(err => {
 			console.log(err)
+
 			next(err)
 		})
 }
+//-----#21 GET api/users endpoint controller -----
+exports.getUsers = (req, res, next) => {
+	fetchUsers()
+		.then(users => {
+			res.status(200).send({ users })
+		})
+		.catch(err => {
+			console.log(err)
+
+			next(err)
+		})
