@@ -171,14 +171,13 @@ describe("All endpoints", () => {
 						expect(user).toEqual(
 							expect.objectContaining({
 								username: expect.any(String),
-
 							})
 						)
 					})
 				})
 		})
-
-    	//-----#9 GET /api/articles endpoint ----------
+	})
+	//-----#9 GET /api/articles endpoint ----------
 	describe("GET - /api/articles", () => {
 		// tests the length of the array object
 		test("status: 200, have length of 12", () => {
@@ -205,6 +204,11 @@ describe("All endpoints", () => {
 								body: expect.any(String),
 								created_at: expect.any(String),
 								votes: expect.any(Number),
+							})
+						)
+					})
+				})
+		})
 		// tests that articles are ordered by date in descending
 		test("staus: 200, articles sorted by date created, in descending order ", () => {
 			return request(app)
@@ -213,6 +217,5 @@ describe("All endpoints", () => {
 					expect(articles).toBeSortedBy("created_at", { descending: true })
 				})
 		})
-
 	})
 })
