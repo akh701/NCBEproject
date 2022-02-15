@@ -87,7 +87,7 @@ describe("All endpoints", () => {
 	//-----#9 GET /api/articles endpoint ----------
 	describe("GET - /api/articles", () => {
 		// tests the length of the array object
-		test("status: 200, have lenth of 12", () => {
+		test("status: 200, have length of 12", () => {
 			return request(app)
 				.get("/api/articles")
 				.expect(200)
@@ -96,7 +96,7 @@ describe("All endpoints", () => {
 				})
 		})
 		// returns an array of Article objects
-		test("Status 200, responds with an array of topic objects ", () => {
+		test("Status 200, responds with an array of Article objects ", () => {
 			return request(app)
 				.get("/api/articles")
 				.expect(200)
