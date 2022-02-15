@@ -83,4 +83,46 @@ describe("All endpoints", () => {
 				})
 		})
 	})
+
+	//-----#9 GET /api/articles endpoint ----------
+	describe("GET - /api/articles", () => {
+		// tests the length of the array object
+		test("status: 200, have lenth of 12", () => {
+			return request(app)
+				.get("/api/articles")
+				.expect(200)
+				.then(({ body: { articles } }) => {
+					expect(articles).toHaveLength(12)
+				})
+		})
+		// returns an array of Article objects
+		test("Status 200, responds with an array of topic objects ", () => {
+			return request(app)
+				.get("/api/articles")
+				.expect(200)
+				.then(({ body: { articles } }) => {
+					articles.forEach(article => {
+						expect(article).toEqual(
+							expect.objectContaining({
+								title: expect.any(String),
+								article_id: expect.any(Number),
+								topic: expect.any(String),
+								author: expect.any(String),
+								body: expect.any(String),
+								created_at: expect.any(String),
+								votes: expect.any(Number),
+							})
+						)
+					})
+				})
+		})
+		// tests that articles are ordered by date in descending
+		test("staus: 200, articles sorted by date created, in descending order ", () => {
+			return request(app)
+				.get("/api/articles")
+				.then(({ body: { articles } }) => {
+					expect(articles).toBeSortedBy("created_at", { descending: true })
+				})
+		})
+	})
 })

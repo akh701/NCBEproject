@@ -1,5 +1,9 @@
 const express = require("express")
-const { getTopics, getArticle } = require("./controllers/news.controllers")
+const {
+	getTopics,
+	getArticle,
+	getArticles,
+} = require("./controllers/news.controllers")
 const {
 	handlePslErrors,
 	handleCustomErrors,
@@ -16,6 +20,9 @@ app.get("/api/articles/:article_id", getArticle)
 
 //-----#7 endpoint ----------
 // app.patch("/api/articles/:article_id", patchArticle)
+
+//-----#9 GET /api/articles endpoint ----------
+app.get("/api/articles", getArticles)
 
 //////////////--Error Handler--/////////////////////
 

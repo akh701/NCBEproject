@@ -19,3 +19,12 @@ exports.fetchArticleById = id => {
 		return rows[0]
 	})
 }
+
+//-----#9 GET /api/articles endpoint ----------
+exports.fetchArticles = () => {
+	let queryStr = `SELECT * FROM articles
+	ORDER BY created_at desc`
+	return db.query(queryStr).then(({ rows: articles }) => {
+		return articles
+	})
+}
