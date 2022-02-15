@@ -1,4 +1,8 @@
-const { fetchTopics, fetchArticleById } = require("../models/news.models")
+const {
+	fetchTopics,
+	fetchArticleById,
+	patchArticleById,
+} = require("../models/news.models")
 
 //-----#3 GET api/topics endpoint controller ----------
 exports.getTopics = (req, res, next) => {
@@ -26,3 +30,16 @@ exports.getArticle = (req, res, next) => {
 }
 
 //-----#7 PATCH api/articles/:article_id endpoint controller -----
+exports.patchArticleById = (req, res, next) => {
+	const { article_id } = req.params
+	const { inc_votes } = req.body
+
+	patchArticleById(article_id, inc_votes)
+		.then(article => {
+			res.status(200).send({ article })
+		})
+		.catch(err => {
+			console.log(err)
+			next(err)
+		})
+}
