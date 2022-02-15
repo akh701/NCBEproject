@@ -20,6 +20,21 @@ exports.fetchArticleById = id => {
 	})
 }
 
+//-----#7 PATCH api/articles/:article_id endpoint model -----
+exports.patchArticleById = (article_id, inc_votes) => {
+	let queryStr = `UPDATE articles SET votes = votes + $1
+WHERE article_id = $2 RETURNING* ;`
+	return db.query(queryStr, [inc_votes, article_id]).then(({ rows }) => {
+		return rows[0]
+	})
+}
+exports.fetchUsers = () => {
+	let queryStr = `SELECT username FROM users`
+	return db.query(queryStr).then(({ rows: users }) => {
+		return users
+    })
+}
+
 //-----#9 GET /api/articles endpoint ----------
 exports.fetchArticles = () => {
 	let queryStr = `SELECT * FROM articles
@@ -28,3 +43,4 @@ exports.fetchArticles = () => {
 		return articles
 	})
 }
+

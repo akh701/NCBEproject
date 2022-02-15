@@ -1,16 +1,20 @@
 const express = require("express")
+
 const {
 	getTopics,
 	getArticle,
-	getArticles,
+  getArticles,
+  getUsers,
+	patchArticleById,
 } = require("./controllers/news.controllers")
 const {
-	handlePslErrors,
+	handlePsqlErrors,
 	handleCustomErrors,
 	handle500s,
 } = require("./error-handler")
 
 const app = new express()
+app.use(express.json())
 
 //-----#3 endpoint ----------
 app.get("/api/topics", getTopics)
@@ -19,18 +23,19 @@ app.get("/api/topics", getTopics)
 app.get("/api/articles/:article_id", getArticle)
 
 //-----#7 endpoint ----------
-// app.patch("/api/articles/:article_id", patchArticle)
+app.patch("/api/articles/:article_id", patchArticleById)
+
+//-----#21 endpoint----------
+app.get("/api/users", getUsers)
 
 //-----#9 GET /api/articles endpoint ----------
 app.get("/api/articles", getArticles)
 
 //////////////--Error Handler--/////////////////////
 
-//---- Custom error handler -----
 app.use(handleCustomErrors)
 
-//---- Psql error handler -----
-app.use(handlePslErrors)
+app.use(handlePsqlErrors)
 
 app.use(handle500s)
 
@@ -38,4 +43,6 @@ app.use(handle500s)
 app.all("/*", (req, res) => {
 	res.status(404).send({ msg: "Path not found" })
 })
+
+//-----------------//
 module.exports = app

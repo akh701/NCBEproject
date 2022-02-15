@@ -84,7 +84,101 @@ describe("All endpoints", () => {
 		})
 	})
 
-	//-----#9 GET /api/articles endpoint ----------
+	//-----#7 PATCH api/articles/:article_id endpoint controller -----
+	describe("Patch - /api/articles/:article_id", () => {
+		// tests if votes have been incremented with a positive vote
+		test(`Status 200 - Responds with votes incremented by inc_votes`, () => {
+			const newVote = { inc_votes: 10 }
+			return request(app)
+				.patch("/api/articles/1")
+				.send(newVote)
+				.expect(200)
+				.then(({ body: { article } }) => {
+					expect(article.votes).toBe(110)
+				})
+		})
+		// tests if votes have been decremented with a negative vote
+		test(`Status 200 - Responds with votes decremented by inc_votes`, () => {
+			const newVote = { inc_votes: -10 }
+			return request(app)
+				.patch("/api/articles/1")
+				.send(newVote)
+				.expect(200)
+				.then(({ body: { article } }) => {
+					expect(article.votes).toBe(90)
+				})
+		})
+		// returns a specific article object with the updated votes
+		test(`Status 200 - responds with an article object with the updated votes.`, () => {
+			const newVote = { inc_votes: 10 }
+			return request(app)
+				.patch("/api/articles/1")
+				.send(newVote)
+				.expect(200)
+				.then(({ body: { article } }) => {
+					expect(article).toEqual({
+						title: expect.any(String),
+						article_id: expect.any(Number),
+						topic: expect.any(String),
+						author: expect.any(String),
+						body: expect.any(String),
+						created_at: expect.any(String),
+						votes: expect.any(Number),
+					})
+				})
+		})
+		// tests for invalid votes
+		test("400 response with an error message for invalid votes", () => {
+			const newVote = { inc_votes: "ten" }
+			return request(app)
+				.patch("/api/articles/3")
+				.send(newVote)
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+		// tests for when user submits empty votes
+		test(`Status 400 - responds with error msg when passed an empty object`, () => {
+			const newVote = {}
+			return request(app)
+				.patch("/api/articles/3")
+				.send(newVote)
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+	})
+	//-----#21 endpoint----------
+	describe("GET - /api/users", () => {
+		// tests the length of the array object
+		test("status: 200, have lenth of 4", () => {
+			return request(app)
+				.get("/api/users")
+				.expect(200)
+				.then(({ body: { users } }) => {
+					expect(users).toHaveLength(4)
+				})
+		})
+		// returns an array of user objects
+		test("Status 200, responds with an array of user objects ", () => {
+			return request(app)
+				.get("/api/users")
+				.expect(200)
+				.then(({ body: { users } }) => {
+					users.forEach(user => {
+						expect(user).toEqual(
+							expect.objectContaining({
+								username: expect.any(String),
+
+							})
+						)
+					})
+				})
+		})
+
+    	//-----#9 GET /api/articles endpoint ----------
 	describe("GET - /api/articles", () => {
 		// tests the length of the array object
 		test("status: 200, have length of 12", () => {
@@ -111,11 +205,6 @@ describe("All endpoints", () => {
 								body: expect.any(String),
 								created_at: expect.any(String),
 								votes: expect.any(Number),
-							})
-						)
-					})
-				})
-		})
 		// tests that articles are ordered by date in descending
 		test("staus: 200, articles sorted by date created, in descending order ", () => {
 			return request(app)
@@ -124,5 +213,6 @@ describe("All endpoints", () => {
 					expect(articles).toBeSortedBy("created_at", { descending: true })
 				})
 		})
+
 	})
 })
