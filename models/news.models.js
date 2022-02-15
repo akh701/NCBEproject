@@ -8,10 +8,13 @@ exports.fetchTopics = () => {
 	})
 }
 
-//-----#14 endpoint model  ----------
+//-----#14 GET api/articles/:article_id endpoint controller -----
 exports.fetchArticleById = id => {
-	let queryStr = `SELECT * FROM articles
-    WHERE article_id = $1`
+	let queryStr = `SELECT *, comment_count FROM articles
+	RIGHT JOIN (SELECT article_id, COUNT(*) AS comment_count FROM comments GROUP BY article_id) comments 
+	ON comments.article_id = articles.article_id 
+	WHERE articles.article_id = $1;`
+
 	return db.query(queryStr, [id]).then(({ rows }) => {
 		if (rows.length === 0) {
 			return Promise.reject({ status: 404, msg: "Article not found" })
@@ -28,11 +31,13 @@ WHERE article_id = $2 RETURNING* ;`
 		return rows[0]
 	})
 }
+
+//-----#21 GET api/users endpoint controller -----
 exports.fetchUsers = () => {
 	let queryStr = `SELECT username FROM users`
 	return db.query(queryStr).then(({ rows: users }) => {
 		return users
-    })
+	})
 }
 
 //-----#9 GET /api/articles endpoint ----------
@@ -43,4 +48,3 @@ exports.fetchArticles = () => {
 		return articles
 	})
 }
-
