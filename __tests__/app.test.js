@@ -85,7 +85,7 @@ describe("All endpoints", () => {
 	})
 
 	//-----#21 endpoint----------
-	describe("GET - /api/users", () => {
+	describe.only("GET - /api/users", () => {
 		// tests the length of the array object
 		test("status: 200, have lenth of 4", () => {
 			return request(app)
@@ -105,8 +105,6 @@ describe("All endpoints", () => {
 						expect(user).toEqual(
 							expect.objectContaining({
 								username: expect.any(String),
-								name: expect.any(String),
-								avatar_url: expect.any(String),
 							})
 						)
 					})

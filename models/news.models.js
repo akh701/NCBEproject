@@ -21,7 +21,7 @@ exports.fetchArticleById = id => {
 }
 
 exports.fetchUsers = () => {
-	let queryStr = `SELECT * FROM users`
+	let queryStr = `SELECT username FROM users`
 	return db.query(queryStr).then(({ rows: users }) => {
 		return users
 	})
