@@ -19,6 +19,7 @@ exports.fetchArticleById = id => {
 		return rows[0]
 	})
 }
+
 //-----#7 PATCH api/articles/:article_id endpoint model -----
 exports.patchArticleById = (article_id, inc_votes) => {
 	let queryStr = `UPDATE articles SET votes = votes + $1
@@ -33,3 +34,13 @@ exports.fetchUsers = () => {
 		return users
     })
 }
+
+//-----#9 GET /api/articles endpoint ----------
+exports.fetchArticles = () => {
+	let queryStr = `SELECT * FROM articles
+	ORDER BY created_at desc;`
+	return db.query(queryStr).then(({ rows: articles }) => {
+		return articles
+	})
+}
+

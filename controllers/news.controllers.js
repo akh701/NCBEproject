@@ -4,6 +4,8 @@ const {
 
 	patchArticleById,
 	fetchUsers,
+  fetchArticles,
+
 } = require("../models/news.models")
 
 //-----#3 GET api/topics endpoint controller ----------
@@ -52,8 +54,18 @@ exports.getUsers = (req, res, next) => {
 	fetchUsers()
 		.then(users => {
 			res.status(200).send({ users })
+
 		})
 		.catch(err => {
 			next(err)
 		})
 }
+//-----#9 GET /api/articles endpoint ----------
+exports.getArticles = (req, res, next) => {
+	fetchArticles()
+		.then(articles => {
+			res.status(200).send({ articles })
+    .catch(err => {
+			next(err)
+		})
+  }
