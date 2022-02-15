@@ -83,7 +83,6 @@ describe("All endpoints", () => {
 				})
 		})
 	})
-
 	//-----#7 PATCH api/articles/:article_id endpoint controller -----
 	describe("Patch - /api/articles/:article_id", () => {
 		// tests if votes have been incremented with a positive vote
@@ -149,8 +148,9 @@ describe("All endpoints", () => {
 					expect(msg).toBe("Bad request")
 				})
 		})
-//-----#21 endpoint----------
-	describe.only("GET - /api/users", () => {
+	})
+	//-----#21 endpoint----------
+	describe("GET - /api/users", () => {
 		// tests the length of the array object
 		test("status: 200, have lenth of 4", () => {
 			return request(app)
