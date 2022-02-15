@@ -19,3 +19,10 @@ exports.fetchArticleById = id => {
 		return rows[0]
 	})
 }
+
+exports.fetchUsers = () => {
+	let queryStr = `SELECT * FROM users`
+	return db.query(queryStr).then(({ rows: users }) => {
+		return users
+	})
+}
