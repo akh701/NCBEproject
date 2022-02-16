@@ -32,7 +32,7 @@ exports.fetchUsers = () => {
 	let queryStr = `SELECT username FROM users`
 	return db.query(queryStr).then(({ rows: users }) => {
 		return users
-    })
+	})
 }
 
 //-----#9 GET /api/articles endpoint ----------
@@ -44,3 +44,15 @@ exports.fetchArticles = () => {
 	})
 }
 
+//-----#15 GET /api/articles/:article_id/comments endpoint ----------
+exports.fetchCommentsById = id => {
+	let queryStr = `SELECT comment_id, votes, created_at, author, body FROM comments
+	WHERE article_id = $1;`
+
+	return db.query(queryStr, [id]).then(({ rows: comments }) => {
+		if (comments.length === 0) {
+			return Promise.reject({ status: 404, msg: "Article not found" })
+		}
+		return comments
+	})
+}

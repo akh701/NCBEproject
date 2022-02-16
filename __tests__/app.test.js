@@ -218,4 +218,53 @@ describe("All endpoints", () => {
 				})
 		})
 	})
+	//-----#15 GET /api/articles/:article_id/comments endpoint ----------
+	describe.only("GET - /api/articles/:article_id/comments", () => {
+		// tests the length of the array object
+		test("status: 200, have length of 12", () => {
+			return request(app)
+				.get("/api/articles/1/comments")
+				.expect(200)
+				.then(({ body: { comments } }) => {
+					expect(comments).toHaveLength(11)
+				})
+		})
+		// returns an array of comments objects
+		test("Status 200, responds with an array of comments objects ", () => {
+			return request(app)
+				.get("/api/articles/1/comments")
+				.expect(200)
+				.then(({ body: { comments } }) => {
+					comments.forEach(comment => {
+						expect(comment).toEqual(
+							expect.objectContaining({
+								comment_id: expect.any(Number),
+								body: expect.any(String),
+								votes: expect.any(Number),
+								author: expect.any(String),
+								created_at: expect.any(String),
+							})
+						)
+					})
+				})
+		})
+		// tests for invlaide article_id
+		test("400 response with an error message for invalid article_id", () => {
+			return request(app)
+				.get("/api/articles/an-invalid-id/comments")
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+		// tests for Valid but non existing artice_id
+		test("404 response with an error message for valid but non existing article_id", () => {
+			return request(app)
+				.get("/api/articles/99/comments")
+				.expect(404)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Article not found")
+				})
+		})
+	})
 })
