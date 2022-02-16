@@ -45,8 +45,18 @@ describe("All endpoints", () => {
 				})
 		})
 	})
-	//-----#14 endpoint ----------
+	//-----#14 GET api/articles/:article_id endpoint controller -----
 	describe("GET - /api/articles/:article_id", () => {
+		// returns a comment count
+		test("Status 200, responds with comment count ", () => {
+			return request(app)
+				.get("/api/articles/1")
+				.expect(200)
+				.then(({ body: { article } }) => {
+					console.log(article, "<<<<<")
+					expect(article.comment_count).toBe("11")
+				})
+		})
 		// returns a specific article object
 		test("Status 200, responds with a specific article object ", () => {
 			return request(app)
@@ -61,6 +71,7 @@ describe("All endpoints", () => {
 						body: expect.any(String),
 						created_at: expect.any(String),
 						votes: expect.any(Number),
+						comment_count: expect.any(String),
 					})
 				})
 		})
@@ -150,7 +161,7 @@ describe("All endpoints", () => {
 				})
 		})
 	})
-	//-----#21 endpoint----------
+	//-----#21 GET api/users endpoint controller -----
 	describe("GET - /api/users", () => {
 		// tests the length of the array object
 		test("status: 200, have lenth of 4", () => {
