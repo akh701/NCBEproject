@@ -3,9 +3,10 @@ const express = require("express")
 const {
 	getTopics,
 	getArticle,
-  getArticles,
-  getUsers,
+	getArticles,
+	getUsers,
 	patchArticleById,
+	getCommentsById,
 } = require("./controllers/news.controllers")
 const {
 	handlePsqlErrors,
@@ -30,6 +31,9 @@ app.get("/api/users", getUsers)
 
 //-----#9 GET /api/articles endpoint ----------
 app.get("/api/articles", getArticles)
+
+//-----#15 GET /api/articles/:article_id/comments endpoint ----------
+app.get("/api/articles/:article_id/comments", getCommentsById)
 
 //////////////--Error Handler--/////////////////////
 
