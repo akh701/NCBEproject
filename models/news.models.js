@@ -42,8 +42,11 @@ exports.fetchUsers = () => {
 
 //-----#9 GET /api/articles endpoint ----------
 exports.fetchArticles = () => {
-	let queryStr = `SELECT * FROM articles
-	ORDER BY created_at desc;`
+	let queryStr = `SELECT articles.*, COUNT(comments.article_id) AS comment_count 
+	FROM articles
+	JOIN comments ON comments.article_id = articles.article_id
+	GROUP BY articles.article_id
+	ORDER BY articles.created_at desc ;`
 	return db.query(queryStr).then(({ rows: articles }) => {
 		return articles
 	})

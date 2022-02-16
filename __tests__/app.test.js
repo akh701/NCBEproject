@@ -191,16 +191,16 @@ describe("All endpoints", () => {
 	//-----#9 GET /api/articles endpoint ----------
 	describe("GET - /api/articles", () => {
 		// tests the length of the array object
-		test("status: 200, have length of 12", () => {
+		test("status: 200, have length of 5", () => {
 			return request(app)
 				.get("/api/articles")
 				.expect(200)
 				.then(({ body: { articles } }) => {
-					expect(articles).toHaveLength(12)
+					expect(articles).toHaveLength(5)
 				})
 		})
-		// returns an array of Article objects
-		test("Status 200, responds with an array of Article objects ", () => {
+		// returns an array of Article objects with comment count
+		test("Status 200, responds with an array of Article objects with comment count ", () => {
 			return request(app)
 				.get("/api/articles")
 				.expect(200)
@@ -215,6 +215,7 @@ describe("All endpoints", () => {
 								body: expect.any(String),
 								created_at: expect.any(String),
 								votes: expect.any(Number),
+								comment_count: expect.any(String),
 							})
 						)
 					})
