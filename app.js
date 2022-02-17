@@ -7,6 +7,7 @@ const {
 	getUsers,
 	patchArticleById,
 	getCommentsById,
+	postCommentById,
 } = require("./controllers/news.controllers")
 const {
 	handlePsqlErrors,
@@ -34,6 +35,9 @@ app.get("/api/articles", getArticles)
 
 //-----#15 GET /api/articles/:article_id/comments endpoint ----------
 app.get("/api/articles/:article_id/comments", getCommentsById)
+
+//-----#11 POST /api/articles/:article_id/comments endpoint ----------
+app.post("/api/articles/:article_id/comments", postCommentById)
 
 //////////////--Error Handler--/////////////////////
 
