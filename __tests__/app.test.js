@@ -189,7 +189,7 @@ describe("All endpoints", () => {
 		})
 	})
 	//-----#9 GET /api/articles endpoint ----------
-	describe("GET - /api/articles", () => {
+	describe.only("GET - /api/articles", () => {
 		// tests the length of the array object
 		test("status: 200, have length of 5", () => {
 			return request(app)
@@ -212,7 +212,6 @@ describe("All endpoints", () => {
 								article_id: expect.any(Number),
 								topic: expect.any(String),
 								author: expect.any(String),
-								body: expect.any(String),
 								created_at: expect.any(String),
 								votes: expect.any(Number),
 								comment_count: expect.any(String),
@@ -224,14 +223,54 @@ describe("All endpoints", () => {
 		// tests that articles are ordered by date in descending
 		test("staus: 200, articles sorted by date created, in descending order ", () => {
 			return request(app)
-				.get("/api/articles")
+				.get("/api/articles?sort_by=created_at")
+				.expect(200)
 				.then(({ body: { articles } }) => {
 					expect(articles).toBeSortedBy("created_at", { descending: true })
 				})
 		})
+		// tests that articles are ordered by votes in descending
+		test("staus: 200, articles sorted by votes, in descending order ", () => {
+			return request(app)
+				.get("/api/articles?sort_by=votes")
+				.expect(200)
+				.then(({ body: { articles } }) => {
+					expect(articles).toBeSortedBy("votes", { descending: true })
+				})
+		})
+		// tests that articles are ordered by votes in ascending
+		test("staus: 200, articles sorted by votes, in ascending order ", () => {
+			return request(app)
+				.get("/api/articles?sort_by=votes&order=asc")
+				.expect(200)
+				.then(({ body: { articles } }) => {
+					expect(articles).toBeSortedBy("votes")
+				})
+		})
+		// returns an array of Article objects that are filtered by topic, ordered by date in ascending and filtered by topic
+		test("staus: 200, returns an array of Article objects that are filtered by topic, sorted by date, in ascending order ", () => {
+			return request(app)
+				.get("/api/articles?topic=mitch")
+				.expect(200)
+				.then(({ body: { articles } }) => {
+					articles.forEach(article => {
+						expect(article).toEqual(
+							expect.objectContaining({
+								title: expect.any(String),
+								article_id: expect.any(Number),
+								topic: expect.any(String),
+								author: expect.any(String),
+								created_at: expect.any(String),
+								votes: expect.any(Number),
+								comment_count: expect.any(String),
+							})
+						)
+					})
+				})
+		})
 	})
 	//-----#15 GET /api/articles/:article_id/comments endpoint ----------
-	describe.only("GET - /api/articles/:article_id/comments", () => {
+	describe("GET - /api/articles/:article_id/comments", () => {
 		// tests the length of the array object
 		test("status: 200, have length of 12", () => {
 			return request(app)
