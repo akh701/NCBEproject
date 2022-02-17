@@ -221,7 +221,7 @@ describe("All endpoints", () => {
 				})
 		})
 		// tests that articles are ordered by date in descending
-		test("staus: 200, articles sorted by date created, in descending order ", () => {
+		test("status: 200, articles sorted by date created, in descending order ", () => {
 			return request(app)
 				.get("/api/articles?sort_by=created_at")
 				.expect(200)
@@ -230,7 +230,7 @@ describe("All endpoints", () => {
 				})
 		})
 		// tests that articles are ordered by votes in descending
-		test("staus: 200, articles sorted by votes, in descending order ", () => {
+		test("status: 200, articles sorted by votes, in descending order ", () => {
 			return request(app)
 				.get("/api/articles?sort_by=votes")
 				.expect(200)
@@ -239,7 +239,7 @@ describe("All endpoints", () => {
 				})
 		})
 		// tests that articles are ordered by votes in ascending
-		test("staus: 200, articles sorted by votes, in ascending order ", () => {
+		test("status: 200, articles sorted by votes, in ascending order ", () => {
 			return request(app)
 				.get("/api/articles?sort_by=votes&order=asc")
 				.expect(200)
@@ -248,7 +248,7 @@ describe("All endpoints", () => {
 				})
 		})
 		// returns an array of Article objects that are filtered by topic
-		test("staus: 200, returns an array of Article objects that are filtered by topic ", () => {
+		test("status: 200, returns an array of Article objects that are filtered by topic ", () => {
 			return request(app)
 				.get("/api/articles?topic=cats")
 				.expect(200)
@@ -287,7 +287,7 @@ describe("All endpoints", () => {
 				})
 		})
 		// tests for invlaide topic
-		test("200 response with an error message for invalid topic", () => {
+		test("404 response with an error message for invalid topic", () => {
 			return request(app)
 				.get("/api/articles?topic=randomTopic")
 				.expect(404)
