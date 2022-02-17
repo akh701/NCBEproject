@@ -53,21 +53,21 @@ exports.fetchArticles = (sort_by = "created_at", order = "desc", topic) => {
 		return Promise.reject({ status: 400, msg: "Bad request" })
 	}
 
-	let queryStr = `SELECT author, title, article_id, topic, created_at, c, COUNT(comments.article_id) AS comment_count 
+	let queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, 
+	COUNT(comments.article_id) AS comment_count 
 	FROM articles
-	JOIN comments ON comments.article_id = articles.article_id`
+	LEFT JOIN comments ON comments.article_id = articles.article_id`
 
 	const queryVales = []
 	if (topic) {
-		queryStr += `WHERE topic = $1`
+		queryStr += ` WHERE articles.topic ILIKE $1`
 		queryVales.push(topic)
 	}
 
-	queryStr += `GROUP BY articles.article_id
+	queryStr += ` GROUP BY articles.article_id
 	ORDER BY ${sort_by} ${order} ;`
 
-	return db.query(queryStr).then(({ rows: articles }) => {
-		console.log(articles, "<<<<<<")
+	return db.query(queryStr, queryVales).then(({ rows: articles }) => {
 		return articles
 	})
 }

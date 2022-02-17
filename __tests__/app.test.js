@@ -189,14 +189,14 @@ describe("All endpoints", () => {
 		})
 	})
 	//-----#9 GET /api/articles endpoint ----------
-	describe.only("GET - /api/articles", () => {
+	describe("GET - /api/articles", () => {
 		// tests the length of the array object
-		test("status: 200, have length of 5", () => {
+		test("status: 200, have length of 12", () => {
 			return request(app)
 				.get("/api/articles")
 				.expect(200)
 				.then(({ body: { articles } }) => {
-					expect(articles).toHaveLength(5)
+					expect(articles).toHaveLength(12)
 				})
 		})
 		// returns an array of Article objects with comment count
@@ -247,10 +247,10 @@ describe("All endpoints", () => {
 					expect(articles).toBeSortedBy("votes")
 				})
 		})
-		// returns an array of Article objects that are filtered by topic, ordered by date in ascending and filtered by topic
-		test("staus: 200, returns an array of Article objects that are filtered by topic, sorted by date, in ascending order ", () => {
+		// returns an array of Article objects that are filtered by topic
+		test("staus: 200, returns an array of Article objects that are filtered by topic ", () => {
 			return request(app)
-				.get("/api/articles?topic=mitch")
+				.get("/api/articles?topic=cats")
 				.expect(200)
 				.then(({ body: { articles } }) => {
 					articles.forEach(article => {
@@ -258,7 +258,7 @@ describe("All endpoints", () => {
 							expect.objectContaining({
 								title: expect.any(String),
 								article_id: expect.any(Number),
-								topic: expect.any(String),
+								topic: "cats",
 								author: expect.any(String),
 								created_at: expect.any(String),
 								votes: expect.any(Number),
@@ -266,6 +266,33 @@ describe("All endpoints", () => {
 							})
 						)
 					})
+				})
+		})
+		// tests for invlaide sort_by
+		test("400 response with an error message for invalid sort_by", () => {
+			return request(app)
+				.get("/api/articles?sort_by=RandomVote")
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+		// tests for invlaide order
+		test("400 response with an error message for invalid order", () => {
+			return request(app)
+				.get("/api/articles?order=RandomOrder")
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+		// tests for invlaide topic
+		test("200 response with an error message for invalid topic", () => {
+			return request(app)
+				.get("/api/articles?topic=randomTopic")
+				.expect(404)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Topic not found")
 				})
 		})
 	})
