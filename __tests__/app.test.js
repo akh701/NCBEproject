@@ -345,4 +345,63 @@ describe("All endpoints", () => {
 				})
 		})
 	})
+
+	//-----#11 POST /api/articles/:article_id/comments endpoint ----------
+	describe("POST - /api/articles/:article_id/comments", () => {
+		// returns a comment for a particular article
+		test(`Status 201 - responds with a comment for a particular article.`, () => {
+			const newComment = { username: "butter_bridge", body: "Greate Article" }
+			return request(app)
+				.post("/api/articles/1/comments")
+				.send(newComment)
+				.expect(201)
+				.then(({ body: { comment } }) => {
+					expect(comment.body).toEqual("Greate Article")
+				})
+		})
+		// tests for non existing username
+		test("404 response with an error message for non existing  username", () => {
+			const newComment = { username: "someuser", body: "Greate Article" }
+			return request(app)
+				.post("/api/articles/1/comments")
+				.send(newComment)
+				.expect(404)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("User/Id not found")
+				})
+		})
+		// tests for when user submits empty body
+		test(`Status 400 - responds with error msg when passed an empty object`, () => {
+			const newComment = {}
+			return request(app)
+				.post("/api/articles/1/comments")
+				.send(newComment)
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+		// tests for invlaide article_id
+		test("400 response with an error message for invalid article_id", () => {
+			const newComment = { username: "butter_bridge", body: "Greate Article" }
+			return request(app)
+				.post("/api/articles/an-invalid-id/comments")
+				.send(newComment)
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+		// tests for Valid but non existing artice_id
+		test("404 response with an error message for valid but non existing article_id", () => {
+			const newComment = { username: "butter_bridge", body: "Greate Article" }
+			return request(app)
+				.post("/api/articles/99/comments")
+				.send(newComment)
+				.expect(404)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("User/Id not found")
+				})
+		})
+	})
 })

@@ -6,8 +6,11 @@ const {
 	fetchUsers,
 	fetchArticles,
 	fetchCommentsById,
+	insertCommentById,
 } = require("../models/news.models")
+
 const { checkTopicExists } = require("../models/utils.models")
+
 
 //-----#3 GET api/topics endpoint controller ----------
 exports.getTopics = (req, res, next) => {
@@ -80,6 +83,19 @@ exports.getCommentsById = (req, res, next) => {
 	fetchCommentsById(articleId)
 		.then(comments => {
 			res.status(200).send({ comments })
+		})
+		.catch(err => {
+			next(err)
+		})
+}
+
+//-----#11 POST /api/articles/:article_id/comments endpoint ----------
+exports.postCommentById = (req, res, next) => {
+	const { article_id: articleId } = req.params
+
+	insertCommentById(articleId, req.body)
+		.then(comment => {
+			res.status(201).send({ comment })
 		})
 		.catch(err => {
 			next(err)

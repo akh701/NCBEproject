@@ -12,6 +12,8 @@ exports.handlePsqlErrors = (err, req, res, next) => {
 	const code = ["22P02", "23502"]
 	if (code.includes(err.code)) {
 		res.status(400).send({ msg: "Bad request" })
+	} else if (err.code === "23503") {
+		res.status(404).send({ msg: "User/Id not found" })
 	} else {
 		next(err)
 	}

@@ -1,4 +1,5 @@
 const db = require("../db/connection")
+const { checkUserExists } = require("./utils")
 
 //-----#3 endpoint model  ----------
 exports.fetchTopics = () => {
@@ -84,3 +85,18 @@ exports.fetchCommentsById = id => {
 		return comments
 	})
 }
+
+
+//-----#11 POST /api/articles/:article_id/comments endpoint ----------
+exports.insertCommentById = (id, comment) => {
+	const { username, body } = comment
+	let queryStr = `INSERT INTO comments (author, body, article_id) 
+	VALUES ($1, $2, $3)  RETURNING * ;`
+	return db.query(queryStr, [username, body, id]).then(({ rows }) => {
+		if (rows.length === 0) {
+			return Promise.reject({ status: 404, msg: "Article not found" })
+		}
+		return rows[0]
+	})
+}
+
