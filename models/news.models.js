@@ -100,3 +100,12 @@ exports.insertCommentById = (id, comment) => {
 	})
 }
 
+
+//-----#12 POST /api/comments/:comment_id endpoint ----------
+exports.deleteCommentById = id => {
+	let queryStr = `DELETE FROM comments
+	WHERE comment_id = $1 ;`
+
+	return db.query(queryStr, [id]).then(() => {})
+}
+

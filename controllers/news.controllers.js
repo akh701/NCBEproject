@@ -7,6 +7,7 @@ const {
 	fetchArticles,
 	fetchCommentsById,
 	insertCommentById,
+	deleteCommentById,
 } = require("../models/news.models")
 
 const { checkTopicExists } = require("../models/utils.models")
@@ -96,6 +97,19 @@ exports.postCommentById = (req, res, next) => {
 	insertCommentById(articleId, req.body)
 		.then(comment => {
 			res.status(201).send({ comment })
+		})
+		.catch(err => {
+			next(err)
+		})
+}
+
+//-----#12 POST /api/comments/:comment_id endpoint ----------
+exports.removeCommentById = (req, res, next) => {
+	const { comment_id } = req.params
+	console.log(comment_id, "controller")
+	deleteCommentById(comment_id)
+		.then(() => {
+			res.sendStatus(204)
 		})
 		.catch(err => {
 			next(err)
