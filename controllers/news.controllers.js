@@ -9,7 +9,7 @@ const {
 	insertCommentById,
 	deleteCommentById,
 } = require("../models/news.models")
-const { checkUserExists } = require("../models/utils")
+const { checkUserExists, checkCommentIdExists } = require("../models/utils")
 
 //-----#3 GET api/topics endpoint controller ----------
 exports.getTopics = (req, res, next) => {
@@ -99,8 +99,10 @@ exports.postCommentById = (req, res, next) => {
 //-----#12 POST /api/comments/:comment_id endpoint ----------
 exports.removeCommentById = (req, res, next) => {
 	const { comment_id } = req.params
-	console.log(comment_id, "controller")
-	deleteCommentById(comment_id)
+	return Promise.all([
+		checkCommentIdExists(comment_id),
+		deleteCommentById(comment_id),
+	])
 		.then(() => {
 			res.sendStatus(204)
 		})
