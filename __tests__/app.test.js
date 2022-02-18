@@ -404,6 +404,38 @@ describe("All endpoints", () => {
 				})
 		})
 	})
+  
+  //-----#12 POST /api/comments/:comment_id endpoint ----------
+	describe("DELETE - /api/comments/:comment_id", () => {
+		test("Status 204 responds with empty body ", () => {
+			return request(app)
+				.delete("/api/comments/1")
+				.expect(204)
+				.then(({ body }) => {
+					expect(body).toEqual({})
+				})
+		})
+		// tests for invalid comment_id
+		test("400 response with an error message for invalid comment_id", () => {
+			return request(app)
+				.delete("/api/comments/an-invalid-id")
+				.expect(400)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Bad request")
+				})
+		})
+		// tests for Valid but non existing comment_id
+		test("404 response with an error message for valid but non existing comment_id", () => {
+			return request(app)
+				.delete("/api/comments/99")
+				.expect(404)
+				.then(({ body: { msg } }) => {
+					expect(msg).toBe("Comment not found")
+
+				})
+		})
+	})
+
 
 	//-----#13 GET /api endpoint ----------
 	describe("Get /api", () => {
@@ -426,7 +458,6 @@ describe("All endpoints", () => {
 							"POST /api/articles/:article_id/comments": expect.any(Object),
 						})
 					)
-				})
-		})
-	})
+
+	
 })
