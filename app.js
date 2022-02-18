@@ -53,6 +53,7 @@ app.use(handle500s)
 
 //---- 404-Path not found error handler -----
 app.all("/*", (req, res) => {
+	console.log(res, "app<<<")
 	res.status(404).send({ msg: "Path not found" })
 })
 

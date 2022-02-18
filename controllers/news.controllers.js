@@ -9,7 +9,13 @@ const {
 	insertCommentById,
 	deleteCommentById,
 } = require("../models/news.models")
+
 const { checkUserExists, checkCommentIdExists } = require("../models/utils")
+
+
+const { checkTopicExists } = require("../models/utils.models")
+
+
 
 //-----#3 GET api/topics endpoint controller ----------
 exports.getTopics = (req, res, next) => {
@@ -62,8 +68,13 @@ exports.getUsers = (req, res, next) => {
 }
 //-----#9 GET /api/articles endpoint ----------
 exports.getArticles = (req, res, next) => {
-	fetchArticles()
-		.then(articles => {
+	const { sort_by, order, topic } = req.query
+
+	return Promise.all([
+		fetchArticles(sort_by, order, topic),
+		topic ? checkTopicExists(topic) : null,
+	])
+		.then(([articles]) => {
 			res.status(200).send({ articles })
 		})
 		.catch(err => {

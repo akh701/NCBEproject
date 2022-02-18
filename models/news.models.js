@@ -42,13 +42,33 @@ exports.fetchUsers = () => {
 }
 
 //-----#9 GET /api/articles endpoint ----------
-exports.fetchArticles = () => {
-	let queryStr = `SELECT articles.*, COUNT(comments.article_id) AS comment_count 
+exports.fetchArticles = (sort_by = "created_at", order = "desc", topic) => {
+	const valideSortBy = ["created_at", "votes"]
+	const valideOrderBy = ["asc", "desc"]
+
+	if (!valideSortBy.includes(sort_by)) {
+		return Promise.reject({ status: 400, msg: "Bad request" })
+	}
+
+	if (!valideOrderBy.includes(order)) {
+		return Promise.reject({ status: 400, msg: "Bad request" })
+	}
+
+	let queryStr = `SELECT articles.author, articles.title, articles.article_id, articles.topic, articles.created_at, articles.votes, 
+	COUNT(comments.article_id) AS comment_count 
 	FROM articles
-	JOIN comments ON comments.article_id = articles.article_id
-	GROUP BY articles.article_id
-	ORDER BY articles.created_at desc ;`
-	return db.query(queryStr).then(({ rows: articles }) => {
+	LEFT JOIN comments ON comments.article_id = articles.article_id`
+
+	const queryVales = []
+	if (topic) {
+		queryStr += ` WHERE articles.topic ILIKE $1`
+		queryVales.push(topic)
+	}
+
+	queryStr += ` GROUP BY articles.article_id
+	ORDER BY ${sort_by} ${order} ;`
+
+	return db.query(queryStr, queryVales).then(({ rows: articles }) => {
 		return articles
 	})
 }
@@ -66,6 +86,7 @@ exports.fetchCommentsById = id => {
 	})
 }
 
+
 //-----#11 POST /api/articles/:article_id/comments endpoint ----------
 exports.insertCommentById = (id, comment) => {
 	const { username, body } = comment
@@ -79,6 +100,7 @@ exports.insertCommentById = (id, comment) => {
 	})
 }
 
+
 //-----#12 POST /api/comments/:comment_id endpoint ----------
 exports.deleteCommentById = id => {
 	let queryStr = `DELETE FROM comments
@@ -86,3 +108,4 @@ exports.deleteCommentById = id => {
 
 	return db.query(queryStr, [id])
 }
+
