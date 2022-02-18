@@ -7,16 +7,14 @@ const {
 	fetchArticles,
 	fetchCommentsById,
 	insertCommentById,
-
-	readApi,
-
+	deleteCommentById,
 } = require("../models/news.models")
 
-const { checkUserExists, checkCommentIdExists } = require("../models/utils")
-
-
-const { checkTopicExists } = require("../models/utils.models")
-
+const {
+	checkUserExists,
+	checkCommentIdExists,
+	checkTopicExists,
+} = require("../models/utils")
 
 const endpointApi = require("../endpoints.json")
 
@@ -27,7 +25,6 @@ exports.getTopics = (req, res, next) => {
 			res.status(200).send({ topics })
 		})
 		.catch(err => {
-			console.log(err)
 			next(err)
 		})
 }
@@ -40,7 +37,6 @@ exports.getArticle = (req, res, next) => {
 			res.status(200).send({ article })
 		})
 		.catch(err => {
-			console.log(err)
 			next(err)
 		})
 }
@@ -110,7 +106,6 @@ exports.postCommentById = (req, res, next) => {
 		})
 }
 
-
 //-----#12 POST /api/comments/:comment_id endpoint ----------
 exports.removeCommentById = (req, res, next) => {
 	const { comment_id } = req.params
@@ -120,7 +115,6 @@ exports.removeCommentById = (req, res, next) => {
 	])
 		.then(() => {
 			res.sendStatus(204)
-
 		})
 		.catch(err => {
 			next(err)
@@ -131,7 +125,8 @@ exports.getApi = (req, res, next) => {
 	return Promise.resolve(endpointApi)
 		.then(endpoints => {
 			res.status(200).send({ endpoints })
-  }).catch(err => {
+		})
+		.catch(err => {
 			next(err)
 		})
 }

@@ -404,8 +404,8 @@ describe("All endpoints", () => {
 				})
 		})
 	})
-  
-  //-----#12 POST /api/comments/:comment_id endpoint ----------
+
+	//-----#12 DELETE /api/comments/:comment_id endpoint ----------
 	describe("DELETE - /api/comments/:comment_id", () => {
 		test("Status 204 responds with empty body ", () => {
 			return request(app)
@@ -431,11 +431,9 @@ describe("All endpoints", () => {
 				.expect(404)
 				.then(({ body: { msg } }) => {
 					expect(msg).toBe("Comment not found")
-
 				})
 		})
 	})
-
 
 	//-----#13 GET /api endpoint ----------
 	describe("Get /api", () => {
@@ -445,7 +443,6 @@ describe("All endpoints", () => {
 				.get("/api")
 				.expect(200)
 				.then(({ body: { endpoints } }) => {
-					console.log(endpoints, "test file")
 					expect(endpoints).toEqual(
 						expect.objectContaining({
 							"GET /api": expect.any(Object),
@@ -458,6 +455,7 @@ describe("All endpoints", () => {
 							"POST /api/articles/:article_id/comments": expect.any(Object),
 						})
 					)
-
-	
+				})
+		})
+	})
 })

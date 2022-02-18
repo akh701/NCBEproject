@@ -8,9 +8,8 @@ const {
 	patchArticleById,
 	getCommentsById,
 	postCommentById,
-
+	removeCommentById,
 	getApi,
-
 } = require("./controllers/news.controllers")
 const {
 	handlePsqlErrors,
@@ -42,10 +41,8 @@ app.get("/api/articles/:article_id/comments", getCommentsById)
 //-----#11 POST /api/articles/:article_id/comments endpoint ----------
 app.post("/api/articles/:article_id/comments", postCommentById)
 
-
 //-----#12 POST /api/comments/:comment_id endpoint ----------
 app.delete("/api/comments/:comment_id", removeCommentById)
-
 
 //-----#13 POST /api endpoint ----------
 app.get("/api", getApi)

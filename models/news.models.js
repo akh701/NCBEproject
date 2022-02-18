@@ -1,5 +1,4 @@
 const db = require("../db/connection")
-const { checkUserExists } = require("./utils")
 
 //-----#3 endpoint model  ----------
 exports.fetchTopics = () => {
@@ -99,7 +98,6 @@ exports.insertCommentById = (id, comment) => {
 	})
 }
 
-
 //-----#12 POST /api/comments/:comment_id endpoint ----------
 exports.deleteCommentById = id => {
 	let queryStr = `DELETE FROM comments
@@ -107,5 +105,3 @@ exports.deleteCommentById = id => {
 
 	return db.query(queryStr, [id])
 }
-
-
