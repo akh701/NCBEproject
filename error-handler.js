@@ -8,7 +8,6 @@ exports.handleCustomErrors = (err, req, res, next) => {
 
 //---- Psql error handler -----
 exports.handlePsqlErrors = (err, req, res, next) => {
-	console.log(err)
 	const code = ["22P02", "23502"]
 	if (code.includes(err.code)) {
 		res.status(400).send({ msg: "Bad request" })
@@ -21,6 +20,5 @@ exports.handlePsqlErrors = (err, req, res, next) => {
 
 //--- 500s Server Errors
 exports.handle500s = (err, req, res, next) => {
-	console.log(err)
 	res.status(500).send({ msg: "server error" })
 }

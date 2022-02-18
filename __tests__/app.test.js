@@ -53,7 +53,6 @@ describe("All endpoints", () => {
 				.get("/api/articles/1")
 				.expect(200)
 				.then(({ body: { article } }) => {
-					console.log(article, "<<<<<")
 					expect(article.comment_count).toBe("11")
 				})
 		})
