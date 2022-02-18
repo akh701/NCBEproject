@@ -86,7 +86,6 @@ exports.fetchCommentsById = id => {
 	})
 }
 
-
 //-----#11 POST /api/articles/:article_id/comments endpoint ----------
 exports.insertCommentById = (id, comment) => {
 	const { username, body } = comment
@@ -108,4 +107,5 @@ exports.deleteCommentById = id => {
 
 	return db.query(queryStr, [id])
 }
+
 

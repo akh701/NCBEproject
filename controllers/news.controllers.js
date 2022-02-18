@@ -7,7 +7,9 @@ const {
 	fetchArticles,
 	fetchCommentsById,
 	insertCommentById,
-	deleteCommentById,
+
+	readApi,
+
 } = require("../models/news.models")
 
 const { checkUserExists, checkCommentIdExists } = require("../models/utils")
@@ -16,6 +18,7 @@ const { checkUserExists, checkCommentIdExists } = require("../models/utils")
 const { checkTopicExists } = require("../models/utils.models")
 
 
+const endpointApi = require("../endpoints.json")
 
 //-----#3 GET api/topics endpoint controller ----------
 exports.getTopics = (req, res, next) => {
@@ -107,6 +110,7 @@ exports.postCommentById = (req, res, next) => {
 		})
 }
 
+
 //-----#12 POST /api/comments/:comment_id endpoint ----------
 exports.removeCommentById = (req, res, next) => {
 	const { comment_id } = req.params
@@ -116,8 +120,18 @@ exports.removeCommentById = (req, res, next) => {
 	])
 		.then(() => {
 			res.sendStatus(204)
+
 		})
 		.catch(err => {
+			next(err)
+		})
+}
+//-----#13 GET /api endpoint ----------
+exports.getApi = (req, res, next) => {
+	return Promise.resolve(endpointApi)
+		.then(endpoints => {
+			res.status(200).send({ endpoints })
+  }).catch(err => {
 			next(err)
 		})
 }
