@@ -7,10 +7,10 @@ const {
 	fetchArticles,
 	fetchCommentsById,
 	insertCommentById,
+	readApi,
 } = require("../models/news.models")
 
 const { checkTopicExists } = require("../models/utils.models")
-
 
 //-----#3 GET api/topics endpoint controller ----------
 exports.getTopics = (req, res, next) => {
@@ -96,6 +96,17 @@ exports.postCommentById = (req, res, next) => {
 	insertCommentById(articleId, req.body)
 		.then(comment => {
 			res.status(201).send({ comment })
+		})
+		.catch(err => {
+			next(err)
+		})
+}
+
+//-----#13 GET /api endpoint ----------
+exports.getApi = (req, res, next) => {
+	readApi()
+		.then(endpoints => {
+			res.status(200).send({ endpoints })
 		})
 		.catch(err => {
 			next(err)
