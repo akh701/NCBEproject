@@ -1,6 +1,5 @@
 const db = require("../db/connection")
 const { checkUserExists } = require("./utils")
-const endpoints = require("../endpoints.json")
 
 //-----#3 endpoint model  ----------
 exports.fetchTopics = () => {
@@ -98,11 +97,4 @@ exports.insertCommentById = (id, comment) => {
 		}
 		return rows[0]
 	})
-}
-
-//-----#13 POST /api endpoint ----------
-exports.readApi = () => {
-	if (endpoints) {
-		return Promise.resolve(endpoints)
-	}
 }

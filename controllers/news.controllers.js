@@ -12,6 +12,7 @@ const {
 
 const { checkTopicExists } = require("../models/utils.models")
 
+const endpointApi = require("../endpoints.json")
 //-----#3 GET api/topics endpoint controller ----------
 exports.getTopics = (req, res, next) => {
 	fetchTopics()
@@ -104,7 +105,7 @@ exports.postCommentById = (req, res, next) => {
 
 //-----#13 GET /api endpoint ----------
 exports.getApi = (req, res, next) => {
-	readApi()
+	return Promise.resolve(endpointApi)
 		.then(endpoints => {
 			res.status(200).send({ endpoints })
 		})
