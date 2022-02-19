@@ -15,13 +15,12 @@ This app was built using express.js, node js and postgresql.
 
 1. Fork the git hub repository, Link: [https://github.com/akh701/NCBEproject]
 2. Clone this repository to your local machine using this command in `git clone Forked-Repository-Url`
-3. Install all the following App dependencies:
 
-- [express] with minimum version 4.17.2, command: `npm i expres`
-- [Postgres] with minimum version 8.7.3, command: `npm i pg`
-- [dotenv] with minimum version 16.0.0, command: `npm i dotenv`
+------------- App Dependencies ------------------------
 
-4. Install the following development dependencies to run tests
+1. [nodejs] - download nodejs from [https://nodejs.org/en/download/] to be able to use npm
+2. install all the app dependencies with this command: `npm install`
+3. Dev dependecies install:
 
    - `jest`: version( 27.5.1), command: ` npm i jest -D`
    - `jest-extended`: version (2.0.0"), command: ` npm i jest-extended -D`
