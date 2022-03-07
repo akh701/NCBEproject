@@ -18,10 +18,10 @@ const {
 	handle500s,
 } = require("./error-handler")
 
-app.use(cors())
-
 const app = new express()
+
 app.use(express.json())
+app.use(cors())
 
 //-----#3 endpoint ----------
 app.get("/api/topics", getTopics)
