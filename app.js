@@ -1,4 +1,5 @@
 const express = require("express")
+const cors = require("cors")
 
 const {
 	getTopics,
@@ -16,6 +17,8 @@ const {
 	handleCustomErrors,
 	handle500s,
 } = require("./error-handler")
+
+app.use(cors())
 
 const app = new express()
 app.use(express.json())
