@@ -2,7 +2,7 @@ const {
 	fetchTopics,
 	fetchArticleById,
 
-	patchArticleById,
+	updateArticleById,
 	fetchUsers,
 	fetchArticles,
 	fetchCommentsById,
@@ -47,7 +47,7 @@ exports.patchArticleById = (req, res, next) => {
 	const { article_id } = req.params
 	const { inc_votes } = req.body
 
-	patchArticleById(article_id, inc_votes)
+	updateArticleById(article_id, inc_votes)
 		.then(article => {
 			res.status(200).send({ article })
 		})
