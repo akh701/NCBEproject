@@ -106,7 +106,7 @@ exports.postCommentById = (req, res, next) => {
 		})
 }
 
-//-----#12 POST /api/comments/:comment_id endpoint ----------
+//-----#12 Delete /api/comments/:comment_id endpoint ----------
 exports.removeCommentById = (req, res, next) => {
 	const { comment_id } = req.params
 	return Promise.all([

@@ -133,7 +133,7 @@ describe("All endpoints", () => {
 						author: expect.any(String),
 						body: expect.any(String),
 						created_at: expect.any(String),
-						votes: expect.any(Number),
+						votes: 110,
 					})
 				})
 		})

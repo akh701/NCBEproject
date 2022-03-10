@@ -96,5 +96,12 @@
 				}
 			]
 		}
+	},
+	"Delete /api/comments/:comment_id": {
+		"description": "delets a comment posted by user",
+		"queries": [],
+		"exampleResponse": {
+			"Status 204 - No Content": "No body is returned by this endpoint."
+		}
 	}
 }
